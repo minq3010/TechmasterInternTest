@@ -1,10 +1,8 @@
-# 🎵 Dialogue Highlighter
-
-**Dialogue Highlighter** là ứng dụng web phát âm thanh hội thoại và tự động highlight từng từ, từng câu theo đúng thời điểm phát âm, giúp trải nghiệm nghe và đọc hội thoại trở nên trực quan, sinh động.
+# Báo cáo: Highlight Hội Thoại
 
 ---
 
-## 🚀 Tính năng nổi bật
+## Tính năng
 
 - **Phát audio đồng bộ**: Phát file âm thanh `.wav` và highlight chính xác từng từ/câu theo thời gian thực.
 - **Tô sáng từng từ**: Mỗi từ được bôi vàng đúng lúc được phát âm.
@@ -16,21 +14,7 @@
 
 ---
 
-## 📂 Cấu trúc dự án
-
-```
-TechMasterInternTest/03/
-├── index.html         # Giao diện chính của ứng dụng
-├── styles.css         # Định dạng giao diện, hiệu ứng
-├── script.js          # Xử lý logic, đồng bộ audio và text
-├── jamesflora.json    # Dữ liệu thời gian cho từng câu/từ
-├── jamesflora.wav     # File âm thanh hội thoại
-└── README.md          # Hướng dẫn sử dụng (file này)
-```
-
----
-
-## 📝 Định dạng dữ liệu
+## Định dạng dữ liệu
 
 File `jamesflora.json` chứa thông tin:
 - **sentence**: Danh sách các câu, mỗi câu gồm:
@@ -41,31 +25,11 @@ File `jamesflora.json` chứa thông tin:
 - **word**: Danh sách các từ, mỗi từ gồm:
   - `[thời gian bắt đầu, thời lượng, từ, vị trí ký tự, độ dài]`
 
-Ví dụ:
-```json
-{
-  "sentence": [
-    {
-      "r": 0,
-      "s": "Hi Flora! How’s your day going?",
-      "t0": 0.0,
-      "t1": 2.5,
-      "b": 0,
-      "e": 31
-    }
-  ],
-  "word": [
-    [0.0, 0.3, "Hi", 0, 2],
-    [0.3, 0.5, "Flora!", 3, 6]
-  ]
-}
-```
-
 ---
 
-## 💡 Hướng dẫn sử dụng
+## Hướng dẫn sử dụng
 
-1. **Mở file `index.html`** bằng trình duyệt hiện đại (Chrome, Firefox, Edge, Safari).
+1. **Mở file `index.html`** bằng trình duyệt (Chrome, Firefox, Edge, Safari).
 2. Đảm bảo các file `jamesflora.wav` và `jamesflora.json` nằm cùng thư mục với `index.html`.
 3. Nhấn nút ▶️ để phát audio và xem hiệu ứng highlight.
 4. Có thể kéo thanh thời gian để tua nhanh/chậm, hoặc click vào từ để nhảy đến thời điểm đó.
@@ -73,6 +37,5 @@ Ví dụ:
 
 ---
 
-## Video
-
-
+## Video demo
+![](https://github.com/user-attachments/assets/122af87d-34df-4c13-8556-c15276a68c6e)
