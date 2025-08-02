@@ -1,0 +1,247 @@
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .game-status {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+            min-height: 30px;
+        }
+
+        .connection-status {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .player-role {
+            font-size: 1rem;
+            color: #2196F3;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .current-player {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .your-turn {
+            color: #FF5722 !important;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            gap: 2px;
+            background-color: #8B4513;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            background-color: #DEB887;
+            border: 1px solid #8B4513;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .cell:hover {
+            background-color: #F5DEB3;
+            transform: scale(1.05);
+        }
+
+        .cell.x {
+            color: #e74c3c;
+            background-color: #ffebee;
+        }
+
+        .cell.o {
+            color: #3498db;
+            background-color: #e3f2fd;
+        }
+
+        .cell.winning {
+            background-color: #4CAF50 !important;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .player-info {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .player-info.active {
+            background: #e8f5e8;
+            border: 2px solid #4CAF50;
+        }
+
+        .player-info.my-player {
+            background: #e3f2fd;
+            border: 2px solid #2196F3;
+        }
+
+        .player-info.my-player.active {
+            background: linear-gradient(135deg, #e8f5e8, #e3f2fd);
+            border: 2px solid #FF5722;
+            box-shadow: 0 0 10px rgba(255, 87, 34, 0.3);
+        }
+
+        .player-symbol {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .player-x .player-symbol {
+            color: #e74c3c;
+        }
+
+        .player-o .player-symbol {
+            color: #3498db;
+        }
+
+        .winner-announcement {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .winner-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .winner-text {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .cell {
+                width: 25px;
+                height: 25px;
+                font-size: 14px;
+            }
+            
+            .game-title {
+                font-size: 2rem;
+            }
+            
+            .board {
+                padding: 5px;
+            }
+        }

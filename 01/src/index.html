@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caro Game 15x15</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">🎯 Cờ Caro 15x15</h1>
+            <div class="game-status">
+                <span class="current-player">Người chơi X</span> đang lượt
+            </div>
+        </div>
+
+        <div class="board" id="board"></div>
+
+        <div class="game-info">
+            <div class="player-info player-x active" id="playerX">
+                <div class="player-symbol">❌</div>
+                <div>Người chơi X</div>
+            </div>
+            <div class="player-info player-o" id="playerO">
+                <div class="player-symbol">⭕</div>
+                <div>Người chơi O</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="resetGame()">🔄 Chơi lại</button>
+            <button class="btn" onclick="showInstructions()">📋 Hướng dẫn</button>
+        </div>
+    </div>
+
+    <div class="winner-announcement" id="winnerModal">
+        <div class="winner-content">
+            <div class="winner-text" id="winnerText"></div>
+            <button class="btn" onclick="resetGame()">Chơi lại</button>
+        </div>
+    </div>
+    <script src="scripts/app.js"></script>
+</html>

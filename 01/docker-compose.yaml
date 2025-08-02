@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  app:
+    container_name: caro-app
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/src/app
+    command: air -c .air.toml
+    restart: always
