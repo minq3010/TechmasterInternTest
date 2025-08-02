@@ -307,11 +307,13 @@ class DialogueHighlighter {
         const containerRect = container.getBoundingClientRect();
         const dialogueRect = dialogueLine.getBoundingClientRect();
         
-        // Check if dialogue is fully visible with some margin
-        const margin = 40;
+        // Check if dialogue is fully visible with margin
+        const topMargin = 60;
+        const bottomMargin = 80; // Larger bottom margin to prevent cut-off
+        
         return (
-            dialogueRect.top >= (containerRect.top + margin) &&
-            dialogueRect.bottom <= (containerRect.bottom - margin)
+            dialogueRect.top >= (containerRect.top + topMargin) &&
+            dialogueRect.bottom <= (containerRect.bottom - bottomMargin)
         );
     }
 
@@ -323,9 +325,34 @@ class DialogueHighlighter {
         const dialogueTop = this.getElementOffsetTop(dialogueLine, container);
         const dialogueHeight = dialogueLine.offsetHeight;
         
-        // Center the dialogue in the container
-        const targetScrollTop = dialogueTop - (containerHeight / 2) + (dialogueHeight / 2);
+        // Get container bounds
         const maxScroll = container.scrollHeight - containerHeight;
+        
+        // Calculate ideal center position
+        const idealScrollTop = dialogueTop - (containerHeight / 2) + (dialogueHeight / 2);
+        
+        let targetScrollTop;
+        
+        // Check if dialogue is near the end of content
+        const dialogueBottom = dialogueTop + dialogueHeight;
+        const contentHeight = container.scrollHeight;
+        const isNearEnd = dialogueBottom > (contentHeight - containerHeight + 80); // 80px threshold
+        
+        if (isNearEnd) {
+            // For dialogues near the end, position them higher up to avoid being cut off
+            targetScrollTop = dialogueTop - (containerHeight * 0.75); // Position at 25% from top
+        } else if (idealScrollTop < 0) {
+            // If dialogue is at the top, show it with padding
+            targetScrollTop = Math.max(0, dialogueTop - 60); // 60px padding from top
+        } else if (idealScrollTop > maxScroll) {
+            // If we can't center normally, use maximum scroll but ensure visibility
+            targetScrollTop = maxScroll;
+        } else {
+            // Normal centering
+            targetScrollTop = idealScrollTop;
+        }
+        
+        // Final bounds check
         const finalScrollTop = Math.max(0, Math.min(targetScrollTop, maxScroll));
         
         // Use custom smooth animation
