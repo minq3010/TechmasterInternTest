@@ -75,6 +75,9 @@ CREATE TABLE translations (
     FOREIGN KEY (meaning_id) REFERENCES meanings(id)
 );
 ```
+- **Mô hình cấu trúc Database**
+
+![](https://github.com/user-attachments/assets/884ad49a-67a0-49ce-aa95-3b01793ec5c4)
 
 ## 4. Ví dụ nhập dữ liệu
 
@@ -105,12 +108,10 @@ INSERT INTO translations (meaning_id, lang, meaning_translated) VALUES
 (4, 'en', 'busy'), (4, 'ja', '混雑している'),
 (5, 'en', 'freeze'), (5, 'ja', '凍る'),
 (6, 'en', 'frozen'), (6, 'ja', '凍結した');
-
+```
 
 ## 5. Nhận xét & mở rộng
 
 - Thiết kế dễ mở rộng cho nhiều ngôn ngữ dịch khác.
 - Có thể bổ sung bảng ví dụ sử dụng từ, bảng người dùng, lịch sử tra cứu…
 - Đảm bảo tính chuẩn hóa, tránh dư thừa dữ liệu.
-
----
