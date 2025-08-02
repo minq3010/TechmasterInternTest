@@ -1,4 +1,4 @@
-#Báo cáo: Ứng Dụng Chơi Cờ Caro Online 15x15 Sử Dụng Go WebSocket
+# Báo cáo: Ứng Dụng Chơi Cờ Caro Online 15x15 Sử Dụng Go WebSocket
 
 ## 1. Mục tiêu
 
