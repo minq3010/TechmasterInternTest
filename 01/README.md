@@ -115,6 +115,5 @@
 ## 8. Kết luận
 
 - Bài tập đã hoàn thành đầy đủ các yêu cầu: giao diện, đồng bộ realtime, kiểm tra thắng/thua, phân vai, chơi lại.
-- Ứng dụng đáp ứng trải nghiệm thực tế tốt, có thể mở rộng cho nhiều phòng chơi, hoặc thêm tính năng chơi với máy.
 
 ---
