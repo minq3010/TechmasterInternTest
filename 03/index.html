@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialogue Highlighter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Dialogue Highlighter</h1>
+            <p>Interactive audio dialogue with synchronized text highlighting</p>
+        </div>
+
+        <div class="demo-note">
+            <strong>Interactive Audio Dialogue:</strong> Play the audio to see synchronized text highlighting. Use the slider to jump to any time position.
+        </div>
+
+        <div class="audio-controls">
+            <div class="control-row">
+                <button class="play-btn" id="playBtn">▶️</button>
+                <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
+                <div class="slider-container">
+                    <input type="range" class="time-slider" id="timeSlider" min="0" max="100" value="0">
+                </div>
+                <label class="auto-scroll-toggle">
+                    <input type="checkbox" id="autoScrollToggle" checked>
+                    <span>Auto Scroll</span>
+                </label>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="dialogue-container" id="dialogueContainer">
+            <!-- Dialogue will be dynamically generated from JSON data -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
