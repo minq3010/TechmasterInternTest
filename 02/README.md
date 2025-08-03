@@ -18,100 +18,106 @@
 
 #### Các bảng chính:
 
-- **words**: Lưu thông tin từ tiếng Việt.
-- **word_types**: Các loại từ (danh từ, động từ, tính từ…).
-- **word_type_translations**: Dịch các loại từ (noun, 名詞, v.v.)
-- **meanings**: Ý nghĩa/giải thích của từ cho từng loại từ.
-- **translations**: Bản dịch sang các ngôn ngữ khác (Anh, Nhật) cho từng ý nghĩa.
+Bảng	Vai trò
+- words	                    : Lưu thông tin cơ bản về từ tiếng Việt (từ, phát âm)
+- word_types	            : Danh sách loại từ gốc bằng tiếng Việt (danh từ, động từ,...)
+- word_type_translations	: Dịch tên loại từ sang các ngôn ngữ khác
+- meanings	                : Các ý nghĩa cụ thể của từ theo loại từ
+- translations	            : Bản dịch ý nghĩa sang các ngôn ngữ khác
+- examples	                : Câu ví dụ minh họa cho từng ý nghĩa, kèm bản dịch
 
 #### Sơ đồ mối quan hệ (ERD text):
 
-- words (id, word, pronunciation)
-- word_types (id, type_vi, type_en, type_ja)
-- meanings (id, word_id, word_type_id, meaning_vi)
-- translations (id, meaning_id, lang, meaning_translated)
+- Mỗi từ (words) có thể có nhiều nghĩa (meanings)
+- Mỗi nghĩa (meanings) gắn với một loại từ (word_types)
+- Mỗi nghĩa có thể có nhiều bản dịch (translations) theo từng ngôn ngữ
+- word_types có bản dịch cố định sang tiếng Anh và Nhật (type_en, type_ja)
 
+![](https://github.com/user-attachments/assets/81092659-affa-4106-9de3-a1ada1e8b839)
+  
 ## 3. Lệnh SQL tạo bảng
 
 ```sql
--- Bảng từ tiếng Việt
-CREATE TABLE words (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    word VARCHAR(100) NOT NULL,
-    pronunciation VARCHAR(100)
+CREATE TABLE WordTypes (
+    word_type_id INT AUTO_INCREMENT PRIMARY KEY,
+    type_name VARCHAR(50) NOT NULL
 );
 
--- Bảng loại từ tiếng Việt (danh từ, động từ, ...)
-CREATE TABLE word_types (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    type_vi VARCHAR(50) NOT NULL
+
+CREATE TABLE Words (
+    word_id INT AUTO_INCREMENT PRIMARY KEY,
+    word_text VARCHAR(255) NOT NULL,
+    pronunciation VARCHAR(255)
 );
 
--- Bảng bản dịch loại từ (noun, 名詞, v.v.)
-CREATE TABLE word_type_translations (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    word_type_id INT NOT NULL,
-    lang VARCHAR(10) NOT NULL, -- 'en' hoặc 'ja'
-    type_translated VARCHAR(50) NOT NULL,
-    FOREIGN KEY (word_type_id) REFERENCES word_types(id)
+
+CREATE TABLE WordMeanings (
+    meaning_id INT AUTO_INCREMENT PRIMARY KEY,
+    word_id INT,
+    word_type_id INT,
+    meaning_text TEXT NOT NULL,
+    FOREIGN KEY (word_id) REFERENCES Words(word_id),
+    FOREIGN KEY (word_type_id) REFERENCES WordTypes(word_type_id)
 );
 
--- Bảng nghĩa tiếng Việt của từ
-CREATE TABLE meanings (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    word_id INT NOT NULL,
-    word_type_id INT NOT NULL,
-    meaning_vi VARCHAR(255) NOT NULL,
-    FOREIGN KEY (word_id) REFERENCES words(id),
-    FOREIGN KEY (word_type_id) REFERENCES word_types(id)
+
+CREATE TABLE Translations (
+    translation_id INT AUTO_INCREMENT PRIMARY KEY,
+    meaning_id INT,
+    language VARCHAR(10) NOT NULL,
+    translated_text TEXT NOT NULL,
+    pronunciation VARCHAR(255),
+    FOREIGN KEY (meaning_id) REFERENCES WordMeanings(meaning_id)
 );
 
--- Bảng bản dịch nghĩa sang tiếng Anh và Nhật
-CREATE TABLE translations (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    meaning_id INT NOT NULL,
-    lang VARCHAR(10) NOT NULL, -- 'en' hoặc 'ja'
-    meaning_translated VARCHAR(255) NOT NULL,
-    FOREIGN KEY (meaning_id) REFERENCES meanings(id)
+
+CREATE TABLE Examples (
+    example_id INT AUTO_INCREMENT PRIMARY KEY,
+    meaning_id INT,
+    example_text TEXT NOT NULL,
+    translation_en TEXT,
+    translation_ja TEXT,
+    FOREIGN KEY (meaning_id) REFERENCES WordMeanings(meaning_id)
+);
+
+
+CREATE TABLE Synonyms (
+    synonym_id INT AUTO_INCREMENT PRIMARY KEY,
+    word_id INT,
+    synonym_word_id INT,
+    FOREIGN KEY (word_id) REFERENCES Words(word_id),
+    FOREIGN KEY (synonym_word_id) REFERENCES Words(word_id)
 );
 ```
-- **Mô hình cấu trúc Database**
 
-![](https://github.com/user-attachments/assets/884ad49a-67a0-49ce-aa95-3b01793ec5c4)
-
-## 4. Ví dụ nhập dữ liệu
+## 4. Ví dụ truy vấn tìm từ
 
 ```sql
--- Từ gốc
-INSERT INTO words (word, pronunciation) VALUES ('đông', 'đông');
-
--- Loại từ
-INSERT INTO word_types (type_vi) VALUES ('danh từ'), ('tính từ'), ('động từ');
-
--- Dịch loại từ
-INSERT INTO word_type_translations (word_type_id, lang, type_translated) VALUES
-(1, 'en', 'noun'), (1, 'ja', '名詞'),
-(2, 'en', 'adjective'), (2, 'ja', '形容詞'),
-(3, 'en', 'verb'), (3, 'ja', '動詞');
-
--- Ý nghĩa
-INSERT INTO meanings (word_id, word_type_id, meaning_vi) VALUES
-(1, 1, 'mùa đông'), (1, 1, 'phía đông'),
-(1, 2, 'đông vui'), (1, 2, 'đông đúc'),
-(1, 3, 'đông lại'), (1, 3, 'đông cứng');
-
--- Dịch nghĩa
-INSERT INTO translations (meaning_id, lang, meaning_translated) VALUES
-(1, 'en', 'winter'), (1, 'ja', '冬 (ふゆ, fuyu)'),
-(2, 'en', 'eastern'), (2, 'ja', '東 (ひがし, higashi)'),
-(3, 'en', 'crowded'), (3, 'ja', 'にぎやか'),
-(4, 'en', 'busy'), (4, 'ja', '混雑している'),
-(5, 'en', 'freeze'), (5, 'ja', '凍る'),
-(6, 'en', 'frozen'), (6, 'ja', '凍結した');
+SELECT 
+    w.word_text,
+    w.pronunciation AS vn_pronunciation,
+    wt.type_name,
+    wm.meaning_text,
+    t.language,
+    t.translated_text,
+    t.pronunciation AS translated_pronunciation,
+    e.example_text,
+    e.translation_en,
+    e.translation_ja,
+    GROUP_CONCAT(ws.word_text) AS synonyms
+FROM 
+    Words w
+    LEFT JOIN WordMeanings wm ON w.word_id = wm.word_id
+    LEFT JOIN WordTypes wt ON wm.word_type_id = wt.word_type_id
+    LEFT JOIN Translations t ON wm.meaning_id = t.meaning_id
+    LEFT JOIN Examples e ON wm.meaning_id = e.meaning_id
+    LEFT JOIN Synonyms s ON w.word_id = s.word_id
+    LEFT JOIN Words ws ON s.synonym_word_id = ws.word_id
+WHERE 
+    w.word_text = 'chạy'
+GROUP BY 
+    w.word_id, wm.meaning_id, t.translation_id, e.example_id;
 ```
+- **Kết quả**f
+![](https://github.com/user-attachments/assets/ab6c4bca-a2da-4531-a62c-e30533397fef)
 
-## 5. Nhận xét & mở rộng
-
-- Thiết kế dễ mở rộng cho nhiều ngôn ngữ dịch khác.
-- Có thể bổ sung bảng ví dụ sử dụng từ, bảng người dùng, lịch sử tra cứu…
-- Đảm bảo tính chuẩn hóa, tránh dư thừa dữ liệu.
