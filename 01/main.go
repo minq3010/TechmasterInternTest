@@ -113,7 +113,11 @@ func (room *GameRoom) Run() {
 				room.PlayerCount--
 			}
 
-			log.Printf("Client connected. Player: %s, Total players: %d", client.Player, room.PlayerCount)
+			log.Printf(
+				"Client connected. Player: %s, Total players: %d",
+				client.Player,
+				room.PlayerCount,
+			)
 
 		case client := <-room.Unregister:
 			room.mutex.Lock()
@@ -197,7 +201,8 @@ func (room *GameRoom) checkWin(row, col int, player string) bool {
 			newRow := row + dir[0]*i
 			newCol := col + dir[1]*i
 
-			if room.isValidPosition(newRow, newCol) && room.GameState.Board[newRow][newCol] == player {
+			if room.isValidPosition(newRow, newCol) &&
+				room.GameState.Board[newRow][newCol] == player {
 				count++
 				winCells = append(winCells, []int{newRow, newCol})
 			} else {
@@ -210,7 +215,8 @@ func (room *GameRoom) checkWin(row, col int, player string) bool {
 			newRow := row - dir[0]*i
 			newCol := col - dir[1]*i
 
-			if room.isValidPosition(newRow, newCol) && room.GameState.Board[newRow][newCol] == player {
+			if room.isValidPosition(newRow, newCol) &&
+				room.GameState.Board[newRow][newCol] == player {
 				count++
 				winCells = append([][]int{{newRow, newCol}}, winCells...)
 			} else {
@@ -287,7 +293,11 @@ func (c *Client) ReadPump(room *GameRoom) {
 		var msg Message
 		err := c.Conn.ReadJSON(&msg)
 		if err != nil {
-			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+			if websocket.IsUnexpectedCloseError(
+				err,
+				websocket.CloseGoingAway,
+				websocket.CloseAbnormalClosure,
+			) {
 				log.Printf("WebSocket error: %v", err)
 			}
 			break
