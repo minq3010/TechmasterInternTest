@@ -37,5 +37,4 @@ File `jamesflora.json` chứa thông tin:
 
 ---
 
-## Video demo (đợi một lúc để load video)
-![](https://github.com/user-attachments/assets/afb365b3-1727-4f89-85b5-4a925472cf8c)
+## Video demo: https://youtu.be/5R-VXNxgYOs
